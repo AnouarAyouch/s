@@ -14,7 +14,7 @@ import (
 	"github.com/joho/godotenv"
 )
 
-func apiUrl() string {
+func apiURL() string {
 	err := godotenv.Load()
 	if err != nil {
 		log.Fatalf("Errore loading .env file : %v", err)
@@ -54,13 +54,11 @@ var cache = currencycache.NewCache(24 * time.Hour)
 func ApiResponse(url string) (Currency, error) {
 	// check if it in cache
 	var resp Currency
-	fmt.Println("Using cached data:", url)
+	fmt.Println("Using cached data:")
 	if data, ok := cache.Get(url); ok {
 		err := PrettyJSON(data)
 		if err != nil {
 			fmt.Println("Error prettifying JSON:", err)
-		} else {
-			fmt.Println("Pretty JSON written to pretty_cache.json")
 		}
 		err = json.Unmarshal(data, &resp)
 		if err != nil {
